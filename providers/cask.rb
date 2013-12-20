@@ -13,7 +13,7 @@ end
 action :cask do
   unless @cask.casked
     execute "installing cask #{new_resource.name}" do
-      command "/usr/local/bin/brew cask install #{new_resource.name}"
+      command "/usr/local/bin/brew cask install #{new_resource.name} --appdir=#{node['homebrew']['cask']['appdir']}"
       not_if "/usr/local/bin/brew brew list | grep #{new_resource.name}"
     end
   end
@@ -22,7 +22,7 @@ end
 action :uncask do
   if @cask.casked
     execute "uninstalling cask #{new_resource.name}" do
-      command "/usr/local/bin/brew cask uninstall #{new_resource.name}"
+      command "/usr/local/bin/brew cask uninstall #{new_resource.name} --appdir=#{node['homebrew']['cask']['appdir']}"
       only_if "/usr/local/bin/brew cask list | grep #{new_resource.name}"
     end
   end
